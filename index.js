@@ -11,5 +11,5 @@ app.listen(PORT,()=>{
     console.log(`APP is running on port:${PORT}`)
 });
 
-app.use('/',tradeRoutes);
+app.use('/market',tradeRoutes);
 app.use('/assets',assetRouters);

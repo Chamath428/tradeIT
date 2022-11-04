@@ -1,17 +1,9 @@
 import express from 'express'
 import Alpaca from '@alpacahq/alpaca-trade-api'
-
-const apiKey = process.env['ALPACA_API_KEY_ID'];
-const secrectKey = process.env['ALPACA_SECRET_KEY'];
-
-const alpaca = new Alpaca({
-    keyId: apiKey,
-    secretKey: secrectKey,
-    paper: true,
-  })
+import { alpacaConfig } from '../configs/alpaca.js';
 
 export const getActiveAssets=(req,res)=>{
-    alpaca.getAssets({
+  alpacaConfig.getAssets({
         status: 'active',
         asset_class:'us_equity'
       }).then((assets) => {
@@ -22,7 +14,7 @@ export const getActiveAssets=(req,res)=>{
 }
 
 export const getAssetBySymbol = (req,res)=>{
-    alpaca.getAsset(req.params.symbol).then((asset)=>{
+  alpacaConfig.getAsset(req.params.symbol).then((asset)=>{
         res.status(200).send(asset);
     }).catch((error)=>{
         res.status(200).json({message:error.response.data.message})
