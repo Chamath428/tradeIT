@@ -3,6 +3,7 @@ import tradeRoutes from './routers/tradeRoutes.js';
 import assetRouters from './routers/assetRoutes.js';
 import newsRouters from './routers/newsRoutes.js';
 import dotenv from "dotenv";
+import docClient from './configs/dynamodb.js';
 dotenv.config({ silent: process.env.NODE_ENV === 'production' });
 
 const app = express();
