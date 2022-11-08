@@ -71,3 +71,11 @@ export const getOrderById = async(req,res)=>{
         res.status(200).json({message:error.response.data.message});
     }
 }
+
+export const getLatestTrade = async (req,res)=>{
+   await alpacaConfig.getLatestTrade(req.params.symbol).then((trade)=>{
+        res.status(200).send(trade);
+    }).catch((error)=>{
+        res.status(200).json({message:error.message});
+    })
+}
