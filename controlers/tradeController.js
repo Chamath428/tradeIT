@@ -1,5 +1,6 @@
 import express from 'express';
 import { alpacaConfig } from '../configs/alpaca.js';
+import docClient from '../configs/dynamodb.js';
 
 
 export const sayHello =()=>{
@@ -25,7 +26,29 @@ export const createOrder = async(req,res)=>{
             time_in_force:"gtc"
         });
 
-        res.status(200).send(order);
+        const params = {
+            TableName: 'trade_info',
+            Item: {
+              'id': order["id"],
+              'client_order_id': order["client_order_id"],
+              'created_at': order["created_at"],
+              'updated_at': order["updated_at"],
+              'submitted_at': order["submitted_at"],
+              'asset_id': order["asset_id"],
+              'symbol': order["symbol"],
+              'qty': order["qty"],
+              'order_type': order["order_type"],
+              'status': order["status"]
+            }
+          };
+
+          docClient.put(params,(err,data)=>{
+            if(err){
+                res.status(200).json({message:"Trade creted successfull! Error happened when recording data into the database."})
+            }else{
+                res.status(200).send(order);
+            }
+          });  
     }catch(error){
         res.status(200).json({message:error.response.data.message});
     }
