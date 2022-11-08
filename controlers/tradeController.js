@@ -53,3 +53,21 @@ export const createOrder = async(req,res)=>{
         res.status(200).json({message:error.response.data.message});
     }
 }
+
+export const getAllOrders = async(req,res)=>{
+    try{
+        const orders = await alpacaConfig.getOrders();
+        res.status(200).send(orders);
+    }catch(error){
+        res.status(200).json({message:"Error while fetching order dtails"});
+    }
+}
+
+export const getOrderById = async(req,res)=>{
+    try{
+        const order = await alpacaConfig.getOrder(req.params.id);
+        res.status(200).send(order);
+    }catch(error){
+        res.status(200).json({message:error.response.data.message});
+    }
+}
